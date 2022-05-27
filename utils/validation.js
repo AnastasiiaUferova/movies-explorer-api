@@ -1,9 +1,16 @@
 const { celebrate, Joi } = require('celebrate');
-const linkPettern = require('./constants');
+const validator = require('validator');
+
+const linkValidator = Joi.string().required().custom((value, helpers) => {
+  if (validator.isURL(value)) {
+    return value;
+  }
+  return helpers.message('Некорректная ссылка');
+});
 
 module.exports.validateChangeUserInfo = celebrate({
   body: Joi.object().keys({
-    name: Joi.string().min(2).max(30),
+    name: Joi.string().required().min(2).max(30),
     email: Joi.string().required().email(),
   }),
 });
@@ -16,15 +23,14 @@ module.exports.validateDeleteMovie = celebrate({
 
 module.exports.validateCreateMovie = celebrate({
   body: Joi.object().keys({
-    owner: Joi.string().length(24).hex().required(),
     country: Joi.string().min(2).max(30),
     director: Joi.string().min(2).max(30),
     duration: Joi.number(),
     year: Joi.string().min(2).max(30),
     description: Joi.string().min(2).max(30),
-    image: Joi.string().required().pattern(linkPettern),
-    trailerLink: Joi.string().required().pattern(linkPettern),
-    thumbnail: Joi.string().required().pattern(linkPettern),
+    image: linkValidator,
+    trailerLink: linkValidator,
+    thumbnail: linkValidator,
     nameRU: Joi.string().min(2).max(30),
     nameEN: Joi.string().min(2).max(30),
     movieId: Joi.number(),
@@ -33,7 +39,7 @@ module.exports.validateCreateMovie = celebrate({
 
 module.exports.validateCreateUser = celebrate({
   body: Joi.object().keys({
-    name: Joi.string().min(2).max(30),
+    name: Joi.string().required().min(2).max(30),
     email: Joi.string().required().email(),
     password: Joi.string().required(),
   }),
