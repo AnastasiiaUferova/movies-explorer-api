@@ -12,7 +12,7 @@ const NotFoundError = require('./errors/not-found-404');
 const { errorHandler } = require('./middlewares/errorHandler');
 const apiLimiter = require('./middlewares/rateLimit');
 
-const { PORT = 3000, URL } = process.env;
+const { PORT = 3000, URL, NODE_ENV } = process.env;
 
 const app = express();
 
@@ -41,7 +41,7 @@ app.use(apiLimiter);
 app.use(helmet.crossOriginResourcePolicy({ policy: 'cross-origin' }));
 app.use(cors);
 
-mongoose.connect(URL);
+mongoose.connect(NODE_ENV === 'production' ? URL : 'mongodb://0.0.0.0:27017/moviesdb');
 
 app.use(signupRouter);
 app.use(signinRouter);
