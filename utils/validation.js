@@ -23,16 +23,16 @@ module.exports.validateDeleteMovie = celebrate({
 
 module.exports.validateCreateMovie = celebrate({
   body: Joi.object().keys({
-    country: Joi.string().min(2).max(30),
-    director: Joi.string().min(2).max(30),
+    country: Joi.string().min(2),
+    director: Joi.string().min(2),
     duration: Joi.number(),
-    year: Joi.string().min(2).max(30),
-    description: Joi.string().min(2).max(30),
+    year: Joi.string().min(2),
+    description: Joi.string().min(2),
     image: linkValidator,
     trailerLink: linkValidator,
     thumbnail: linkValidator,
-    nameRU: Joi.string().min(2).max(30),
-    nameEN: Joi.string().min(2).max(30),
+    nameRU: Joi.string().min(2),
+    nameEN: Joi.string().min(2),
     movieId: Joi.number(),
   }),
 });
