@@ -30,17 +30,17 @@ const movieSchema = new mongoose.Schema({
   image: {
     type: String,
     required: true,
-    validate: [validator.isURL, 'Необходимо ввести валидную ссылку'],
+    validate: [validator.isURL, 'A valid link is required.'],
   },
   trailerLink: {
     type: String,
     required: true,
-    validate: [validator.isURL, 'Необходимо ввести валидную ссылку'],
+    validate: [validator.isURL, 'A valid link is required.'],
   },
   thumbnail: {
     type: String,
     required: true,
-    validate: [validator.isURL, 'Необходимо ввести валидную ссылку'],
+    validate: [validator.isURL, 'A valid link is required.'],
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,

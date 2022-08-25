@@ -53,7 +53,7 @@ app.use(router);
 app.use(errorLogger);
 
 app.use('*', () => {
-  throw new NotFoundError('Ресурс не найден');
+  throw new NotFoundError('Source is not found');
 });
 
 app.use(errors());

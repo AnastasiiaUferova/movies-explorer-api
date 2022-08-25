@@ -33,7 +33,7 @@ module.exports.createMovie = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        return next(new BadRequestError('Переданы некорректные данные при добавлении фильма.'));
+        return next(new BadRequestError('Incorrect data was passed when adding a movie.'));
       }
       return next(err);
     });
@@ -43,17 +43,17 @@ module.exports.deleteMovie = (req, res, next) => {
   const { _id } = req.params;
 
   Movie.findById(_id)
-    .orFail(() => new NotFoundError('Передан несуществующий _id фильма.'))
+    .orFail(() => new NotFoundError('A non-existent movie _id was passed.'))
     .then((movie) => {
       if (!movie.owner.equals(req.user._id)) {
-        return next(new ForbiddenError('Нельзя удалять чужие фильмы.'));
+        return next(new ForbiddenError("You cannot delete other people's movies."));
       }
       return movie.remove()
-        .then(() => res.send({ message: 'Фильм удален из сохраненных.' }));
+        .then(() => res.send({ message: 'Movie was removed from the saved.' }));
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        return next(new BadRequestError('Переданы некорректные данные для удаления фильма.'));
+        return next(new BadRequestError('Incorrect data was passed when deleting a movie.'));
       }
       return next(err);
     });
